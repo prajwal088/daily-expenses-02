@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Daily Expenses 02</string>
+
+    <!-- Auth Screen -->
+    <string name="track_your_financial_journey_with_ease">Track your financial journey with ease</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="or">or</string>
+    <string name="continue_as_guest">Continue as Guest</string>
+    <string name="by_continuing_you_agree_to_our_terms_of_service_and_privacy_policy">By continuing, you agree to our Terms of Service and Privacy Policy</string>
+</resources>
