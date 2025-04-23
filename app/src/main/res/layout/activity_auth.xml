@@ -13,16 +13,17 @@
         android:layout_margin="16dp"
         app:cardElevation="8dp"
         app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/card_background"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:padding="16dp">
 
             <ImageView
@@ -30,8 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_app_logo"
-                android:contentDescription="@null"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/app_name"
+                android:layout_gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,20 +40,22 @@
                 android:text="@string/app_name"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:layout_marginTop="8dp" />
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/textPrimary"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/track_your_financial_journey_with_ease"
-                android:textSize="16sp"
+                android:textSize="12sp"
+                android:gravity="center"
                 android:layout_marginTop="4dp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_marginTop="16dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_google"
@@ -61,23 +64,22 @@
                     android:text="@string/continue_with_google"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@android:color/white"
-                    style="@style/Widget.Material3.Button"
-                    android:layout_gravity="center" />
+                    android:backgroundTint="@color/background_color"
+                    android:textColor="@color/textPrimary"
+                    style="@style/Widget.Material3.Button"/>
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/or"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:gravity="center" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_marginTop="16dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_guest"
@@ -88,16 +90,15 @@
                     android:textStyle="bold"
                     android:backgroundTint="@color/dark_blue"
                     android:textColor="@android:color/white"
-                    style="@style/Widget.Material3.Button"
-                    android:layout_gravity="center" />
+                    style="@style/Widget.Material3.Button"/>
             </FrameLayout>
 
             <ProgressBar
                 android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="16dp"
+                android:contentDescription="@string/loading"
                 android:visibility="gone" />
 
             <TextView
