@@ -8,13 +8,31 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+<!--    Login page  -->
+
+    <!--    Background color -->
+    <color name="background_color">#F4F6F8</color>      <!-- Light Gray Background -->
+
+    <!-- Text colors -->
+    <color name="textPrimary">#000000</color>           <!-- Main text color -->
+    <color name="textSecondary">#757575</color>         <!-- Secondary text color -->
+
+    <!-- Button colors -->
+    <color name="buttonBackground">#4285F4</color>      <!-- Button background color -->
+    <color name="buttonText">#FFFFFF</color>            <!-- Button text color -->
+
+    <!-- Other colors -->
+     <color name="dividerColor">#E0E0E0</color>          <!-- Divider color -->
+
+
     <!-- Primary App Colors -->
     <color name="colorPrimary">#0D47A1</color>          <!-- Dark Blue -->
     <color name="colorPrimaryDark">#002171</color>      <!-- Deeper Blue -->
     <color name="colorAccent">#FFC107</color>           <!-- Amber -->
+    <color name="colorPrimaryLight">#F0F4F8</color>     <!-- Slightly darker background -->
+    <color name="colorAccent2">#4285F4</color>           <!-- Google button color -->
 
     <!-- Backgrounds -->
-    <color name="background_color">#F4F6F8</color>      <!-- Light Gray Background -->
     <color name="card_background">#FFFFFF</color>       <!-- Card White -->
 
     <!-- Text Colors -->
@@ -35,5 +53,11 @@
     <color name="colorSuccess">#2E7D32</color>
     <color name="colorWarning">#FFA000</color>
     <color name="colorError">#D32F2F</color>
+
+    <!-- Navigation icon selector tint -->
+    <color name="gray">#A6A6A6</color>
+
+    <!-- Dashboard -->
+    <color name="primary">#FF6200EE</color>
 
 </resources>

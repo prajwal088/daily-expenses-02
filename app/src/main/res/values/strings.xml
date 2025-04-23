@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Daily Expenses 02</string>
+    <string name="app_name">Daily Expenses</string>
 
     <!-- Auth Screen -->
     <string name="track_your_financial_journey_with_ease">Track your financial journey with ease</string>
@@ -7,4 +7,30 @@
     <string name="or">or</string>
     <string name="continue_as_guest">Continue as Guest</string>
     <string name="by_continuing_you_agree_to_our_terms_of_service_and_privacy_policy">By continuing, you agree to our Terms of Service and Privacy Policy</string>
+    <string name="loading">Progress Bar</string>
+
+    <!--    Bottom Navigation -->
+    <string name="dashboard">Dashboard</string>
+    <string name="transactions">Transactions</string>
+    <string name="statistics">Statistics</string>
+    <string name="calendar">Calendar</string>
+
+    <!-- Dashboard -->
+    <string name="track_your_expenses_and_manage_accounts_efficiently">Track Your Expenses And Manage Accounts Efficiently</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="_0_00">0.00</string>
+    <string name="income">Income</string>
+    <string name="expenses">Expenses</string>
+    <string name="my_accounts">My Accounts</string>
+    <string name="no_account_found_please_add_one">No Account Found Please Add One</string>
+    <string name="view_all">View All</string>
+    <string name="add_account">Add Account</string>
+    <string name="account_name">Account Name</string>
+    <string name="account_type">Account Type</string>
+    <string name="my_transactions">My Transactions</string>
+
+    <!-- Account Activity -->
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
+
 </resources>
