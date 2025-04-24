@@ -19,7 +19,6 @@ public class AccountsActivity extends AppCompatActivity {
     private RecyclerView rvAccounts;
     private AccountsAdapter accountsAdapter;
     private Button btnRefresh, btnAddAccount, btnBack;
-
     private AccountViewModel accountViewModel;
 
     @Override
@@ -27,33 +26,38 @@ public class AccountsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
-        // Initialize Room ViewModel
+        // Initialize ViewModel
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
-        // Bind UI components
+        // Bind Views
         rvAccounts = findViewById(R.id.rv_accounts);
         btnRefresh = findViewById(R.id.btn_refresh);
         btnAddAccount = findViewById(R.id.btn_add_account);
         btnBack = findViewById(R.id.btn_back);
 
-        // Setup RecyclerView
-        accountsAdapter = new AccountsAdapter();
+        // Setup RecyclerView and Adapter
+        accountsAdapter = new AccountsAdapter(account -> {
+            // Optional: handle account item click (view/edit)
+        });
         rvAccounts.setLayoutManager(new LinearLayoutManager(this));
         rvAccounts.setAdapter(accountsAdapter);
 
-        // Observe data
+        // Observe LiveData for account list
         accountViewModel.getAllAccounts().observe(this, accounts -> {
             accountsAdapter.setAccountList(accounts);
         });
 
-        // Refresh button
-        btnRefresh.setOnClickListener(v -> accountViewModel.refreshData());
+        // Refresh accounts data
+        btnRefresh.setOnClickListener(v -> {
+            accountViewModel.refreshData();
+        });
 
-        // Add Account
-        btnAddAccount.setOnClickListener(v -> AddAccountDialog.show(this, (name, type, balance) -> {
-            Account newAccount = new Account(name, type, balance);
-            accountViewModel.insert(newAccount);
-        }));
+        // Show AddAccountDialog and handle result
+        btnAddAccount.setOnClickListener(v -> {
+            AddAccountDialog.show(this, account -> {
+                accountViewModel.insert(account);
+            });
+        });
 
         // Back button
         btnBack.setOnClickListener(v -> finish());
