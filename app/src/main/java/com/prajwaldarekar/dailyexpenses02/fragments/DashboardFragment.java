@@ -67,6 +67,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupTransactions() {
+        // TODO: Replace with actual data loading (from DB/API)
         transactionList = new ArrayList<>();
         transactionList.add(new Transaction(1, "Salary", "2025-04-01", 50000.0, "Income", "Income"));
         transactionList.add(new Transaction(2, "Groceries", "2025-04-03", -1500.0, "Food", "Expense"));
