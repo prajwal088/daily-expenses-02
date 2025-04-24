@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,21 +12,23 @@ import com.prajwaldarekar.dailyexpenses02.R;
 import com.prajwaldarekar.dailyexpenses02.adapters.AccountsAdapter;
 import com.prajwaldarekar.dailyexpenses02.dialogs.AddAccountDialog;
 import com.prajwaldarekar.dailyexpenses02.models.Account;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.prajwaldarekar.dailyexpenses02.viewmodel.AccountViewModel;
 
 public class AccountsActivity extends AppCompatActivity {
 
     private RecyclerView rvAccounts;
     private AccountsAdapter accountsAdapter;
-    private List<Account> accountList;
     private Button btnRefresh, btnAddAccount, btnBack;
+
+    private AccountViewModel accountViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
+
+        // Initialize Room ViewModel
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
         // Bind UI components
         rvAccounts = findViewById(R.id.rv_accounts);
@@ -33,39 +36,26 @@ public class AccountsActivity extends AppCompatActivity {
         btnAddAccount = findViewById(R.id.btn_add_account);
         btnBack = findViewById(R.id.btn_back);
 
-        // Set up RecyclerView
-        accountList = new ArrayList<>();
-        accountsAdapter = new AccountsAdapter(accountList);
+        // Setup RecyclerView
+        accountsAdapter = new AccountsAdapter();
         rvAccounts.setLayoutManager(new LinearLayoutManager(this));
         rvAccounts.setAdapter(accountsAdapter);
 
-        // Load initial data
-        loadAccounts();
+        // Observe data
+        accountViewModel.getAllAccounts().observe(this, accounts -> {
+            accountsAdapter.setAccountList(accounts);
+        });
 
         // Refresh button
-        btnRefresh.setOnClickListener(v -> loadAccounts());
+        btnRefresh.setOnClickListener(v -> accountViewModel.refreshData());
 
-        // Add Account button
-        btnAddAccount.setOnClickListener(v -> openAddAccountDialog());
+        // Add Account
+        btnAddAccount.setOnClickListener(v -> AddAccountDialog.show(this, (name, type, balance) -> {
+            Account newAccount = new Account(name, type, balance);
+            accountViewModel.insert(newAccount);
+        }));
 
         // Back button
         btnBack.setOnClickListener(v -> finish());
     }
-
-    private void loadAccounts() {
-        // TODO: Replace with actual data loading (from DB/API)
-        accountList.clear();
-        accountList.add(new Account(1, "Cash", "Personal", 1500.00));
-        accountList.add(new Account(2, "Bank Account", "Savings", 8700.00));
-        accountList.add(new Account(3, "Wallet", "Digital", 120.50));
-        accountsAdapter.notifyDataSetChanged();
-    }
-
-    private void openAddAccountDialog() {
-        AddAccountDialog.show(this, (id, name, type, balance) -> {
-            accountList.add(new Account(id, name, type, balance));
-            accountsAdapter.notifyDataSetChanged();
-        });
-    }
 }
-
