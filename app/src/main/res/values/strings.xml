@@ -35,6 +35,18 @@
 
     <!-- Accounts -->
     <string name="initial_balance">Initial Balance</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Transactions -->
+    <string name="view_and_manage_your_transaction_history">View and manage your transaction history</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="new_transaction">+ New Transaction</string>
+    <string name="no_transactions_yet_start_by_adding_your_first_transaction">No transactions yet. Start by adding your first transaction.</string>
+    <string name="add_transaction">Add Transaction</string>
+    <string name="amount">Amount</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="type">Type</string>
 
 
 </resources>

@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +18,7 @@ import com.prajwaldarekar.dailyexpenses02.R;
 import com.prajwaldarekar.dailyexpenses02.activities.AccountsActivity;
 import com.prajwaldarekar.dailyexpenses02.adapters.TransactionAdapter;
 import com.prajwaldarekar.dailyexpenses02.models.Transaction;
+import com.prajwaldarekar.dailyexpenses02.viewmodel.TransactionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class DashboardFragment extends Fragment {
     private RecyclerView rvTransactions;
     private TransactionAdapter transactionAdapter;
     private List<Transaction> transactionList;
+    private TransactionViewModel transactionViewModel;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -67,20 +69,23 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupTransactions() {
-        // TODO: Replace with actual data loading (from DB/API)
-        transactionList = new ArrayList<>();
-        transactionList.add(new Transaction(1, "Salary", "2025-04-01", 50000.0, "Income", "Income"));
-        transactionList.add(new Transaction(2, "Groceries", "2025-04-03", -1500.0, "Food", "Expense"));
-        transactionList.add(new Transaction(3, "Electricity Bill", "2025-04-05", -1200.0, "Utilities", "Expense"));
+        // Here you could get the data from ViewModel
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
+        // Observe the LiveData for transactions and update the UI
+        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), transactions -> {
+            transactionList = transactions != null ? transactions : new ArrayList<>();
+            transactionAdapter.setTransactionList(transactionList);  // Update adapter with new data
+            updateBalanceSummary();
+        });
+
+        // Set up RecyclerView
         transactionAdapter = new TransactionAdapter(transactionList, transaction -> {
             // Handle transaction click (if needed)
         });
 
         rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
         rvTransactions.setAdapter(transactionAdapter);
-
-        updateBalanceSummary();
     }
 
     private void updateBalanceSummary() {
