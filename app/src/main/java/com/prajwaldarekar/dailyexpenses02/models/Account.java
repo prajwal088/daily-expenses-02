@@ -1,10 +1,12 @@
 package com.prajwaldarekar.dailyexpenses02.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /**
- * Room Entity representing an Account in the local database.
+ * Room entity representing an Account in the local database.
  */
 @Entity(tableName = "accounts")
 public class Account {
@@ -12,11 +14,30 @@ public class Account {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @ColumnInfo(name = "name")
     private String name;
+
+    @ColumnInfo(name = "type")
     private String type;
+
+    @ColumnInfo(name = "balance")
     private double balance;
 
+    /**
+     * Constructor for new accounts without ID (used when inserting into Room)
+     */
+    @Ignore
     public Account(String name, String type, double balance) {
+        this.name = name;
+        this.type = type;
+        this.balance = balance;
+    }
+
+    /**
+     * Constructor used by Room when reading from the database
+     */
+    public Account(int id, String name, String type, double balance) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.balance = balance;
