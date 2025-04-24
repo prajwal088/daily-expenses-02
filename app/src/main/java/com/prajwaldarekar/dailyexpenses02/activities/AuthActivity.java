@@ -15,6 +15,8 @@ import com.prajwaldarekar.dailyexpenses02.R;
 
 public class AuthActivity extends AppCompatActivity {
 
+    private static final int LOADING_DELAY_MS = 1000;
+
     private Button btnGoogle, btnGuest;
     private ProgressBar progressBar;
 
@@ -27,23 +29,23 @@ public class AuthActivity extends AppCompatActivity {
         btnGuest = findViewById(R.id.btn_guest);
         progressBar = findViewById(R.id.progressBar);
 
-//        Google Sign-in
+        // Google Sign-in (coming soon)
         btnGoogle.setOnClickListener(v -> {
             showLoading();
             Toast.makeText(this, "Google Sign-In coming soon...", Toast.LENGTH_SHORT).show();
-            // Delay before hiding loading (to simulate action)
-            new Handler(Looper.getMainLooper()).postDelayed(this::hideLoading, 1000);
+
+            // TODO: Integrate Google Sign-In logic here
+            new Handler(Looper.getMainLooper()).postDelayed(this::hideLoading, LOADING_DELAY_MS);
         });
 
-//          Guest Sign-in
+        // Guest Sign-in
         btnGuest.setOnClickListener(v -> {
             showLoading();
-            // Delay for a smoother UX
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                Intent intent = new Intent(AuthActivity.this,   MainActivity.class);
+                Intent intent = new Intent(AuthActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-            }, 1000);  // 1 second delay
+            }, LOADING_DELAY_MS);
         });
     }
 
