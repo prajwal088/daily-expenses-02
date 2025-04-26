@@ -1,9 +1,8 @@
 package com.prajwaldarekar.dailyexpenses02.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,17 +12,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.prajwaldarekar.dailyexpenses02.R;
 
+import java.util.UUID;
+
 public class AuthActivity extends AppCompatActivity {
 
     private static final int LOADING_DELAY_MS = 1000;
 
     private Button btnGoogle, btnGuest;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "DailyExpensesPrefs";
+    private static final String KEY_LOGGED_IN = "logged_in";
+    private static final String KEY_USER_ID = "user_id"; // Key for unique user ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        // Check if user is already logged in
+        if (isUserLoggedIn()) {
+            navigateToMainActivity();
+            return; // Skip the rest of the code if already logged in
+        }
 
         btnGoogle = findViewById(R.id.btn_google);
         btnGuest = findViewById(R.id.btn_guest);
@@ -31,21 +44,26 @@ public class AuthActivity extends AppCompatActivity {
 
         // Google Sign-in (coming soon)
         btnGoogle.setOnClickListener(v -> {
-            showLoading();
             Toast.makeText(this, "Google Sign-In coming soon...", Toast.LENGTH_SHORT).show();
-
-            // TODO: Integrate Google Sign-In logic here
-            new Handler(Looper.getMainLooper()).postDelayed(this::hideLoading, LOADING_DELAY_MS);
         });
 
         // Guest Sign-in
         btnGuest.setOnClickListener(v -> {
             showLoading();
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }, LOADING_DELAY_MS);
+            // Simulate login delay
+            new Thread(() -> {
+                try {
+                    Thread.sleep(LOADING_DELAY_MS);
+                    runOnUiThread(() -> {
+                        // Mark user as logged in and generate unique user ID
+                        markUserAsLoggedIn();
+                        generateUserId(); // Generate and store unique user ID
+                        navigateToMainActivity();
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         });
     }
 
@@ -59,5 +77,34 @@ public class AuthActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         btnGoogle.setEnabled(true);
         btnGuest.setEnabled(true);
+    }
+
+    private boolean isUserLoggedIn() {
+        return sharedPreferences.getBoolean(KEY_LOGGED_IN, false);
+    }
+
+    private void markUserAsLoggedIn() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_LOGGED_IN, true);
+        editor.apply();
+    }
+
+    private void generateUserId() {
+        String userId = sharedPreferences.getString(KEY_USER_ID, null);
+
+        if (userId == null) {
+            // Generate a unique ID only if not already created
+            userId = UUID.randomUUID().toString(); // Generates a random unique ID
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(KEY_USER_ID, userId);
+            editor.apply();
+        }
+    }
+
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

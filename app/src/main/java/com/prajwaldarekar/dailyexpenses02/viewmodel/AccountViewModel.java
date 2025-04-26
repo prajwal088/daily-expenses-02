@@ -1,15 +1,18 @@
 package com.prajwaldarekar.dailyexpenses02.viewmodel;
 
 import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
 import com.prajwaldarekar.dailyexpenses02.models.Account;
 import com.prajwaldarekar.dailyexpenses02.repository.AccountRepository;
 
 import java.util.List;
 
 public class AccountViewModel extends AndroidViewModel {
+
     private final AccountRepository repository;
     private final LiveData<List<Account>> allAccounts;
 
@@ -36,6 +39,6 @@ public class AccountViewModel extends AndroidViewModel {
     }
 
     public void refreshData() {
-        // You can trigger custom fetch logic if needed here
+        // TODO: Implement logic to refresh data from source if needed
     }
 }

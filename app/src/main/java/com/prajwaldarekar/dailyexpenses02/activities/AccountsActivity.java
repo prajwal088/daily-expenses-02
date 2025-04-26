@@ -16,9 +16,7 @@ import com.prajwaldarekar.dailyexpenses02.viewmodel.AccountViewModel;
 
 public class AccountsActivity extends AppCompatActivity {
 
-    private RecyclerView rvAccounts;
     private AccountsAdapter accountsAdapter;
-    private Button btnRefresh, btnAddAccount, btnBack;
     private AccountViewModel accountViewModel;
 
     @Override
@@ -30,10 +28,10 @@ public class AccountsActivity extends AppCompatActivity {
         accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
         // Bind Views
-        rvAccounts = findViewById(R.id.rv_accounts);
-        btnRefresh = findViewById(R.id.btn_refresh);
-        btnAddAccount = findViewById(R.id.btn_add_account);
-        btnBack = findViewById(R.id.btn_back);
+        RecyclerView rvAccounts = findViewById(R.id.rv_accounts);
+        Button btnRefresh = findViewById(R.id.btn_refresh);
+        Button btnAddAccount = findViewById(R.id.btn_add_account);
+        Button btnBack = findViewById(R.id.btn_back);
 
         // Setup RecyclerView and Adapter
         accountsAdapter = new AccountsAdapter(account -> {

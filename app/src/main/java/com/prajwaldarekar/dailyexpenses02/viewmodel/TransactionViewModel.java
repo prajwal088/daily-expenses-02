@@ -14,11 +14,11 @@ import java.util.concurrent.Executors;
 
 public class TransactionViewModel extends AndroidViewModel {
 
-    private TransactionRepository transactionRepository;
-    private LiveData<List<Transaction>> allTransactions;
+    private final TransactionRepository transactionRepository;
+    private final LiveData<List<Transaction>> allTransactions;
 
     // Executor service for background tasks (equivalent of coroutines in Java)
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public TransactionViewModel(Application application) {
         super(application);

@@ -4,10 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.prajwaldarekar.dailyexpenses02.R;
 import com.prajwaldarekar.dailyexpenses02.models.Account;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +29,19 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
         this.onAccountClickListener = onAccountClickListener;
     }
 
-    // Set the list of accounts (called by the activity or fragment)
+    // Public method to update account list
     public void setAccountList(List<Account> accounts) {
-        this.accountList = accounts;
-        notifyDataSetChanged();  // Notify the adapter that the data has changed
+        if (accounts != null) {
+            this.accountList = accounts;
+        } else {
+            this.accountList = new ArrayList<>();
+        }
+        notifyDataSetChanged();
+    }
+
+    // Optional: get account at a specific position (useful for swipe/edit)
+    public Account getAccountAt(int position) {
+        return accountList.get(position);
     }
 
     @NonNull
@@ -43,12 +55,18 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
     @Override
     public void onBindViewHolder(@NonNull AccountViewHolder holder, int position) {
         Account account = accountList.get(position);
-        holder.bind(account, onAccountClickListener);  // Bind data to the view holder
+        holder.bind(account, onAccountClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return accountList.size();
+        return accountList != null ? accountList.size() : 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        // If you plan to show different view types in future
+        return super.getItemViewType(position);
     }
 
     // ViewHolder class to bind the account data to the item view
@@ -68,8 +86,11 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.Accoun
             tvAccountType.setText(account.getType());
             accountBalance.setText(String.format("₹%.2f", account.getBalance()));
 
-            // Set up the click listener
-            itemView.setOnClickListener(v -> listener.onAccountClick(account));
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onAccountClick(account);
+                }
+            });
         }
     }
 }

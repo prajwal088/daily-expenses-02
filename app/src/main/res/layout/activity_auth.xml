@@ -26,6 +26,7 @@
             android:gravity="center_horizontal"
             android:padding="16dp">
 
+            <!-- App Logo -->
             <ImageView
                 android:id="@+id/logo"
                 android:layout_width="wrap_content"
@@ -34,6 +35,7 @@
                 android:contentDescription="@string/app_name"
                 android:layout_gravity="center" />
 
+            <!-- App Name -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,6 +46,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/textPrimary"/>
 
+            <!-- Tagline -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,6 +55,7 @@
                 android:gravity="center"
                 android:layout_marginTop="4dp" />
 
+            <!-- Google Sign-in Button -->
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,6 +73,7 @@
                     style="@style/Widget.Material3.Button"/>
             </FrameLayout>
 
+            <!-- OR Text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,6 +81,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center" />
 
+            <!-- Guest Sign-in Button -->
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +99,7 @@
                     style="@style/Widget.Material3.Button"/>
             </FrameLayout>
 
+            <!-- ProgressBar for Loading -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="48dp"
@@ -101,6 +108,7 @@
                 android:contentDescription="@string/loading"
                 android:visibility="gone" />
 
+            <!-- Terms of Service Text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,6 +116,7 @@
                 android:textSize="11sp"
                 android:textAlignment="center"
                 android:layout_marginTop="16dp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

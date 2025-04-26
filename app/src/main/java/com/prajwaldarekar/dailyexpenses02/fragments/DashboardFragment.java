@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prajwaldarekar.dailyexpenses02.R;
 import com.prajwaldarekar.dailyexpenses02.activities.AccountsActivity;
+import com.prajwaldarekar.dailyexpenses02.adapters.AccountsAdapter;
 import com.prajwaldarekar.dailyexpenses02.adapters.TransactionAdapter;
+import com.prajwaldarekar.dailyexpenses02.dialogs.AddAccountDialog;
+import com.prajwaldarekar.dailyexpenses02.models.Account;
 import com.prajwaldarekar.dailyexpenses02.models.Transaction;
+import com.prajwaldarekar.dailyexpenses02.viewmodel.AccountViewModel;
 import com.prajwaldarekar.dailyexpenses02.viewmodel.TransactionViewModel;
 
 import java.util.ArrayList;
@@ -26,9 +31,16 @@ import java.util.List;
 public class DashboardFragment extends Fragment {
 
     private TextView tvTotalBalance, tvIncomeAmount, tvExpenseAmount;
-    private RecyclerView rvTransactions;
+    private RecyclerView rvTransactions, rvAccounts;
+
     private TransactionAdapter transactionAdapter;
-    private List<Transaction> transactionList;
+    private final AccountsAdapter accountsAdapter = new AccountsAdapter(account ->
+            Toast.makeText(getContext(), "Clicked: " + account.getName(), Toast.LENGTH_SHORT).show());
+
+    private List<Transaction> transactionList = new ArrayList<>();
+    private List<Account> accountList = new ArrayList<>();
+
+    private AccountViewModel accountViewModel;
     private TransactionViewModel transactionViewModel;
 
     public DashboardFragment() {
@@ -41,22 +53,10 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         initViews(view);
-        setupTransactions();
-
-        // View All Accounts button
-        view.findViewById(R.id.btn_view_all_accounts).setOnClickListener(v ->
-                startActivity(new Intent(getContext(), AccountsActivity.class))
-        );
-
-        // Add Account button - to be implemented
-        view.findViewById(R.id.btn_add_account).setOnClickListener(v ->
-                showPlaceholderToast("Add Account feature coming soon!")
-        );
-
-        // View All Transactions button - to be implemented
-        view.findViewById(R.id.btn_view_all_transactions).setOnClickListener(v ->
-                showPlaceholderToast("View All Transactions feature coming soon!")
-        );
+        initViewModels();
+        initRecyclerViews();
+        observeViewModels();
+        initButtonListeners(view);
 
         return view;
     }
@@ -66,30 +66,48 @@ public class DashboardFragment extends Fragment {
         tvIncomeAmount = view.findViewById(R.id.tvIncomeAmount);
         tvExpenseAmount = view.findViewById(R.id.tvExpenseAmount);
         rvTransactions = view.findViewById(R.id.rv_transactions);
+        rvAccounts = view.findViewById(R.id.rv_accounts);
     }
 
-    private void setupTransactions() {
-        // Here you could get the data from ViewModel
+    private void initViewModels() {
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+    }
 
-        // Observe the LiveData for transactions and update the UI
-        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), transactions -> {
-            transactionList = transactions != null ? transactions : new ArrayList<>();
-            transactionAdapter.setTransactionList(transactionList);  // Update adapter with new data
-            updateBalanceSummary();
-        });
-
-        // Set up RecyclerView
+    private void initRecyclerViews() {
+        // Transactions RecyclerView
         transactionAdapter = new TransactionAdapter(transactionList, transaction -> {
-            // Handle transaction click (if needed)
+            // Handle item click if needed
         });
-
         rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
         rvTransactions.setAdapter(transactionAdapter);
+
+        // Accounts RecyclerView
+        rvAccounts.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvAccounts.setAdapter(accountsAdapter);
     }
 
-    private void updateBalanceSummary() {
-        double income = 0, expense = 0;
+    private void observeViewModels() {
+        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), transactions -> {
+            transactionList = transactions != null ? transactions : new ArrayList<>();
+            transactionAdapter.setTransactionList(transactionList);
+            updateSummary();
+        });
+
+        accountViewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
+            accountList = accounts != null ? accounts : new ArrayList<>();
+            accountsAdapter.setAccountList(accountList);
+            updateSummary();
+        });
+    }
+
+    private void updateSummary() {
+        double totalBalance = 0, income = 0, expense = 0;
+
+        for (Account account : accountList) {
+            totalBalance += account.getBalance();
+        }
+
         for (Transaction t : transactionList) {
             if ("Income".equalsIgnoreCase(t.getType())) {
                 income += t.getAmount();
@@ -98,15 +116,26 @@ public class DashboardFragment extends Fragment {
             }
         }
 
-        double total = income - expense;
-        tvTotalBalance.setText(String.format("₹%.2f", total));
-        tvIncomeAmount.setText(String.format("₹%.2f", income));
-        tvExpenseAmount.setText(String.format("₹%.2f", expense));
+        tvTotalBalance.setText(formatCurrency(totalBalance));
+        tvIncomeAmount.setText(formatCurrency(income));
+        tvExpenseAmount.setText(formatCurrency(expense));
     }
 
-    private void showPlaceholderToast(String message) {
-        if (getContext() != null) {
-            android.widget.Toast.makeText(getContext(), message, android.widget.Toast.LENGTH_SHORT).show();
-        }
+    private void initButtonListeners(View view) {
+        view.findViewById(R.id.btn_view_all_accounts).setOnClickListener(v ->
+                startActivity(new Intent(getContext(), AccountsActivity.class))
+        );
+
+        view.findViewById(R.id.btn_add_account).setOnClickListener(v ->
+                AddAccountDialog.show(getContext(), account -> accountViewModel.insert(account))
+        );
+
+        view.findViewById(R.id.btn_view_all_transactions).setOnClickListener(v ->
+                Toast.makeText(getContext(), "View All Transactions feature coming soon!", Toast.LENGTH_SHORT).show()
+        );
+    }
+
+    private String formatCurrency(double amount) {
+        return String.format("₹%.2f", amount);
     }
 }

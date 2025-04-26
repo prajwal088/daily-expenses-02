@@ -23,9 +23,7 @@ public class TransactionFragment extends Fragment {
 
     private RecyclerView rvTransactions;
     private TransactionAdapter transactionAdapter;
-    private Button btnNewTransaction, btnAddTransaction;
     private TextView emptyMessage;
-    private TransactionViewModel transactionViewModel;
 
     public TransactionFragment() {
         // Required empty public constructor
@@ -50,11 +48,11 @@ public class TransactionFragment extends Fragment {
         rvTransactions.setAdapter(transactionAdapter);
 
         // Initialize ViewModel
-        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
         // Initialize UI components
-        btnNewTransaction = rootView.findViewById(R.id.btn_new_transaction);
-        btnAddTransaction = rootView.findViewById(R.id.btn_add_transaction);
+        Button btnNewTransaction = rootView.findViewById(R.id.btn_new_transaction);
+        Button btnAddTransaction = rootView.findViewById(R.id.btn_add_transaction);
         emptyMessage = rootView.findViewById(R.id.empty_message);
 
         // Observe LiveData for transaction list

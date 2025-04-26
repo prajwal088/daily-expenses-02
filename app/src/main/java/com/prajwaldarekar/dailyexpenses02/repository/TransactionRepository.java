@@ -12,8 +12,8 @@ import java.util.List;
 
 public class TransactionRepository {
 
-    private TransactionDao transactionDao;
-    private LiveData<List<Transaction>> allTransactions;
+    private final TransactionDao transactionDao;
+    private final LiveData<List<Transaction>> allTransactions;
 
     public TransactionRepository(Application application) {
         TransactionDatabase db = TransactionDatabase.getInstance(application);
