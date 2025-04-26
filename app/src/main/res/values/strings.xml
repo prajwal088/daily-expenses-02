@@ -7,9 +7,12 @@
     <string name="or">or</string>
     <string name="continue_as_guest">Continue as Guest</string>
     <string name="by_continuing_you_agree_to_our_terms_of_service_and_privacy_policy">By continuing, you agree to our Terms of Service and Privacy Policy</string>
-    <string name="loading">Progress Bar</string>
+    <string name="loading_authentication">Authenticating</string>
 
-    <!--    Bottom Navigation -->
+    <!-- Web Client ID -->
+    <string name="web_client_id">11825197783-s67ud113cs8gaia0ijjlfaocj7njgprt.apps.googleusercontent.com</string>
+
+    <!-- Bottom Navigation -->
     <string name="dashboard">Dashboard</string>
     <string name="transactions">Transactions</string>
     <string name="statistics">Statistics</string>
@@ -47,6 +50,5 @@
     <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="type">Type</string>
-
 
 </resources>
